@@ -65,12 +65,11 @@ Po wykonaniu tej komendy żółw w oknie symulatora powinien zacząć poruszać 
 
 Celem było stworzenie węzła ROS 2, który steruje ruchem żółwia w symulatorze `turtlesim` po trajektorii w kształcie ósemki.
 
-### Opis Zaimplementowanego Rozwiązania
+### Rozwiązanie początkowe
+Google AI Studio zaproponowało najpierw koncepcję opierającą się na prostym, sekwencyjnym skrypcie Pythona. Mimo że był on funkcjonalny, jego architektura oparta na blokujących pętlach `while` i funkcji `time.sleep()` była sprzeczna z ideą ROS2, więc postanowiłem zmienić koncepcję.
 
+### Finalne rozwiązanie
 Rozwiązanie zostało zrealizowane jako **sterowany zdarzeniami węzeł ROS 2**. Jego architektura opiera się na **timerze** (`create_timer`), który cyklicznie wywołuje funkcję sterującą, oraz **maszynie stanów** (`self.state`), która zarządza logiką ruchu (skręt w lewo, skręt w prawo). Dzięki temu cała operacja jest napędzana przez wewnętrzny zegar ROS 2, a główna pętla programu (`rclpy.spin`) pozostaje otwarta na inne zdarzenia.
-
-### Ewolucja Rozwiązania
-Google AI Studio zaproponowało najpierw koncepcję opierającą się na prostym, sekwencyjnym skrypcie Pythona. Mimo że był on funkcjonalny, jego architektura oparta na blokujących pętlach `while` i funkcji `time.sleep()` była sprzeczna z ideą ROS2.
 
 ### Potencjalne Ulepszenia
 
