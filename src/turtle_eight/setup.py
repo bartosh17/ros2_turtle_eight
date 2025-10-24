@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-package_name = 'turtle_loop'
+package_name = 'turtle_eight'
 
 setup(
     name=package_name,
@@ -12,14 +12,14 @@ setup(
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='Your Name', # Zmień na swoje imię
-    maintainer_email='your.email@example.com', # Zmień na swój email
+    maintainer='Bartosz Kondratowicz',
+    maintainer_email='bartkon2006@gmail.com',
     description='ROS 2 package for a turtlesim infinity loop.',
-    license='Apache-2.0', # Możesz zmienić licencję
+    license='Apache-2.0',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'infinity_loop_node = turtle_loop.infinity_loop_node:main'
+            'infinity_loop_node = turtle_eight.infinity_loop_node:main'
         ],
     },
 )
