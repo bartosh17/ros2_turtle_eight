@@ -59,26 +59,18 @@ Po wykonaniu tej komendy żółw w oknie symulatora powinien zacząć poruszać 
 
 ---
 
-## Sprawozdanie Techniczne
+## Sprawozdanie
 
 ### Cel Projektu
 
-Celem było stworzenie węzła ROS 2, który steruje ruchem żółwia w symulatorze `turtlesim` po trajektorii w kształcie ósemki, zaimplementowanego zgodnie z najlepszymi praktykami programowania w ROS 2.
+Celem było stworzenie węzła ROS 2, który steruje ruchem żółwia w symulatorze `turtlesim` po trajektorii w kształcie ósemki.
 
 ### Opis Zaimplementowanego Rozwiązania
 
-Rozwiązanie zostało zrealizowane jako **sterowany zdarzeniami, nieblokujący węzeł ROS 2**. Jego architektura opiera się na **timerze** (`create_timer`), który cyklicznie wywołuje funkcję sterującą, oraz **maszynie stanów** (`self.state`), która zarządza logiką ruchu (skręt w lewo, skręt w prawo). Dzięki temu cała operacja jest napędzana przez wewnętrzny zegar ROS 2, a główna pętla programu (`rclpy.spin`) pozostaje otwarta na inne zdarzenia.
+Rozwiązanie zostało zrealizowane jako **sterowany zdarzeniami węzeł ROS 2**. Jego architektura opiera się na **timerze** (`create_timer`), który cyklicznie wywołuje funkcję sterującą, oraz **maszynie stanów** (`self.state`), która zarządza logiką ruchu (skręt w lewo, skręt w prawo). Dzięki temu cała operacja jest napędzana przez wewnętrzny zegar ROS 2, a główna pętla programu (`rclpy.spin`) pozostaje otwarta na inne zdarzenia.
 
 ### Ewolucja Rozwiązania
-Warto zaznaczyć, że pierwotna koncepcja rozwiązania, sugerowana przez narzędzia AI, opierała się na prostym, sekwencyjnym skrypcie Pythona. Mimo że był on funkcjonalny, jego architektura oparta na blokujących pętlach `while` i funkcji `time.sleep()` była sprzeczna z filozofią ROS 2. Taki skrypt nie jest w stanie działać w sposób ciągły i reaktywny, co jest kluczowe w robotyce. Z tego powodu podjęto świadomą decyzję o porzuceniu tego podejścia na rzecz obecnej, znacznie bardziej solidnej implementacji.
-
-### Zalety obecnego podejścia
-
-| Cecha | Podejście Zdarzeniowe (Zaimplementowane) | Podejście Blokujące (Prosty Skrypt) |
-| :--- | :--- | :--- |
-| **Reaktywność** | **Wysoka.** Węzeł jest zawsze gotowy na inne zdarzenia. | **Brak.** Węzeł jest "zamrożony" na czas wykonywania pętli. |
-| **Elastyczność** | **Duża.** Łatwa rozbudowa o nowe stany/zachowania. | **Niska.** Każda zmiana wymaga przebudowy logiki. |
-| **Zgodność z ROS**| **Pełna.** Idiomatyczny sposób pisania węzłów w ROS 2. | **Minimalna.** Ignoruje architekturę i paradygmaty ROS. |
+Google AI Studio zaproponowało najpierw koncepcję opierającą się na prostym, sekwencyjnym skrypcie Pythona. Mimo że był on funkcjonalny, jego architektura oparta na blokujących pętlach `while` i funkcji `time.sleep()` była sprzeczna z ideą ROS2.
 
 ### Potencjalne Ulepszenia
 
