@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>turtle_loop</name>
+  <name>turtle_eight</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="bartek@todo.todo">bartek</maintainer>
-  <license>TODO: License declaration</license>
+  <description>make the turtlesim turtle move in a figure-eight pattern</description>
+  <maintainer email="bartkon2006@gmail.com">Bartosz Kondratowicz</maintainer>
+  <license>Apache License 2.0</license>
 
   <depend>rclpy</depend>
   <depend>geometry_msgs</depend>
