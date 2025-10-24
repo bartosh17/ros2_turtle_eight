@@ -22,7 +22,6 @@ Projekt w ROS 2, którego celem jest sterowanie żółwiem w `turtlesim`, by por
 
 2.  **Sklonuj repozytorium do folderu `src`:**
     ```bash
-    # UWAGA: Poniższy link należy zastąpić linkiem do WŁASNEGO repozytorium!
     git clone https://github.com/your_name/your_repo.git
     ```
 
