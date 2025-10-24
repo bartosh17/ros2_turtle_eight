@@ -102,10 +102,8 @@ Takie podejście sprawia, że węzeł pozostaje responsywny i może w przyszło�
 ---
 
 ### **Potencjalne Ulepszenia**
-1.  **Refaktoryzacja z użyciem timera**: Najważniejszym ulepszeniem jest przepisanie logiki rysowania z użyciem `create_timer`, aby uniknąć blokowania wątku.
-2.  **Wykorzystanie parametrów ROS2**: Promień, kierunek rysowania i prędkości mogłyby być zdefiniowane jako parametry węzła, co pozwoliłoby na ich łatwą konfigurację z zewnątrz (np. z pliku `yaml` lub z linii komend) bez potrzeby modyfikacji kodu.
-3.  **Implementacja jako usługa (Service)**: Zamiast rysować okręgi sekwencyjnie przy starcie, można by stworzyć usługę ROS2, która przyjmowałaby żądanie narysowania okręgu z określonymi parametrami. To uczyniłoby węzeł bardziej modułowym i użytecznym w większych systemach.
-4.  **Użycie pętli `Rate`**: Zamiast `time.sleep()`, można wykorzystać `node.create_rate()`, która zapewnia bardziej stabilną częstotliwość pętli w kontekście ROS2.
+**Wykorzystanie parametrów ROS2**: Promień, kierunek rysowania i prędkości mogłyby być zdefiniowane jako parametry węzła, co pozwoliłoby na ich łatwą konfigurację z zewnątrz (np. z pliku `yaml` lub z linii komend) bez potrzeby modyfikacji kodu.
+
 
 ## Licencja
 
