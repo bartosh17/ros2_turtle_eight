@@ -59,23 +59,31 @@ Po wykonaniu tej komendy żółw w oknie symulatora powinien zacząć poruszać 
 
 ---
 
-## Sprawozdanie: Opis podejścia i zastosowane algorytmy
+## Sprawozdanie Techniczne
 
-### Główna koncepcja
+### Cel Projektu
 
-Kształt ósemki (znak nieskończoności) można matematycznie opisać jako dwa przylegające do siebie okręgi, gdzie jeden jest pokonywany zgodnie z ruchem wskazówek zegara, a drugi przeciwnie.
+Celem było stworzenie węzła ROS 2, który steruje ruchem żółwia w symulatorze `turtlesim` po trajektorii w kształcie ósemki, zaimplementowanego zgodnie z najlepszymi praktykami programowania w ROS 2.
 
-Algorytm sterowania opiera się na tej prostej zasadzie. Aby zmusić żółwia do poruszania się po okręgu, należy nadać mu jednocześnie stałą prędkość liniową (do przodu) oraz stałą prędkość kątową (obrót).
+### Opis Zaimplementowanego Rozwiązania
 
-### Implementacja w węźle ROS 2
+Rozwiązanie zostało zrealizowane jako **sterowany zdarzeniami, nieblokujący węzeł ROS 2**. Jego architektura opiera się na **timerze** (`create_timer`), który cyklicznie wywołuje funkcję sterującą, oraz **maszynie stanów** (`self.state`), która zarządza logiką ruchu (skręt w lewo, skręt w prawo). Dzięki temu cała operacja jest napędzana przez wewnętrzny zegar ROS 2, a główna pętla programu (`rclpy.spin`) pozostaje otwarta na inne zdarzenia.
 
-1.  **Struktura węzła**: Węzeł `infinity_loop_node` został zaimplementowany w Pythonie przy użyciu biblioteki `rclpy`. Węzeł tworzy wydawcę (publisher), który publikuje wiadomości typu `geometry_msgs/msg/Twist` na temat (topic) `/turtle1/cmd_vel`. Symulator `turtlesim` subskrybuje ten temat i na podstawie otrzymanych wiadomości steruje ruchem żółwia.
+### Ewolucja Rozwiązania
+Warto zaznaczyć, że pierwotna koncepcja rozwiązania, sugerowana przez narzędzia AI, opierała się na prostym, sekwencyjnym skrypcie Pythona. Mimo że był on funkcjonalny, jego architektura oparta na blokujących pętlach `while` i funkcji `time.sleep()` była sprzeczna z filozofią ROS 2. Taki skrypt nie jest w stanie działać w sposób ciągły i reaktywny, co jest kluczowe w robotyce. Z tego powodu podjęto świadomą decyzję o porzuceniu tego podejścia na rzecz obecnej, znacznie bardziej solidnej implementacji.
 
-2.  **Logika sterowania**:
-    *   Główna pętla sterująca jest realizowana za pomocą Timera, który cyklicznie wywołuje funkcję odpowiedzialną za publikowanie wiadomości.
-    *   Ruch po ósemce został podzielony na dwa etapy, które naprzemiennie się wykonują:
-        1.  **Pierwszy okrąg**: Przez określony czas (wystarczający do wykonania pełnego obrotu o 360 stopni) publikowana jest wiadomość `Twist` z dodatnią prędkością liniową `linear.x` i dodatnią prędkością kątową `angular.z`.
-        2.  **Drugi okrąg**: Po zakończeniu pierwszego etapu, znak prędkości kątowej jest odwracany. Przez taki sam okres publikowana jest wiadomość `Twist` z tą samą prędkością `linear.x`, ale z ujemną prędkością `angular.z`.
+### Zalety obecnego podejścia
+
+| Cecha | Podejście Zdarzeniowe (Zaimplementowane) | Podejście Blokujące (Prosty Skrypt) |
+| :--- | :--- | :--- |
+| **Reaktywność** | **Wysoka.** Węzeł jest zawsze gotowy na inne zdarzenia. | **Brak.** Węzeł jest "zamrożony" na czas wykonywania pętli. |
+| **Elastyczność** | **Duża.** Łatwa rozbudowa o nowe stany/zachowania. | **Niska.** Każda zmiana wymaga przebudowy logiki. |
+| **Zgodność z ROS**| **Pełna.** Idiomatyczny sposób pisania węzłów w ROS 2. | **Minimalna.** Ignoruje architekturę i paradygmaty ROS. |
+
+### Potencjalne Ulepszenia
+
+1.  **Wykorzystanie Parametrów ROS 2**: Prędkości mogłyby być definiowane jako parametry węzła, co pozwoliłoby na ich zmianę z linii komend bez modyfikacji kodu.
+2.  **Sterowanie w pętli zamkniętej**: Dla większej precyzji, węzeł mógłby subskrybować temat `/turtle1/pose`, aby na bieżąco korygować trajektorię na podstawie faktycznej pozycji żółwia.
 
 ## Licencja
 
