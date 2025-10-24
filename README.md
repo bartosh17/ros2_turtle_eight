@@ -4,9 +4,6 @@ Projekt w ROS 2, którego celem jest sterowanie żółwiem w `turtlesim`, by por
 
 ## Wynik końcowy
 
-W tym miejscu warto dodać zrzut ekranu przedstawiający końcowy efekt działania programu (narysowaną ósemkę).
-
-**Jak dodać zrzut ekranu:**
 ![Wynik działania programu](images/wynik.png)
 
 ## Wymagania
